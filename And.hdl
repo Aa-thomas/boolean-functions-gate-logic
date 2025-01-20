@@ -7,10 +7,13 @@
  * if (a and b) out = 1, else out = 0 
  */
 CHIP And {
-    IN a, b;
-    OUT out;
-    
-    PARTS:
-    
+    IN a, b;    // Input signals
+    OUT out;    // Output signal
 
+    PARTS:
+    // First, compute the NAND of a and b (temp = NOT(a AND b)).
+    Nand(a=a, b=b, out=temp);
+
+    // Then, invert the result of temp to get the AND of a and b.
+    Not(in=temp, out=out);
 }

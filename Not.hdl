@@ -7,9 +7,11 @@
  * if (in) out = 0, else out = 1
  */
 CHIP Not {
-    IN in;
-    OUT out;
+    IN in;    // Input signal
+    OUT out;  // Inverted output signal
 
     PARTS:
-    Nand(a=in,b=in, out=out);
+    // Use a Nand gate to invert the input.
+    // Connecting both inputs of the Nand gate to the same signal makes it act like a Not gate.
+    Nand(a=in, b=in, out=out);
 }

@@ -7,9 +7,17 @@
  * if (sel = 0) out = a, else out = b
  */
 CHIP Mux {
-    IN a, b, sel;
-    OUT out;
+    IN a, b, sel;    // Inputs: a, b (data), sel (selector)
+    OUT out;         // Output signal
 
     PARTS:
-    //// Replace this comment with your code.
+    // Step 1: Invert sel to create NotSel
+    Not(in=sel, out=NotSel);       // NotSel = NOT sel
+
+    // Step 2: Use AND gates to isolate a and b based on sel
+    And(a=a, b=NotSel, out=aAndNotSel);  // aAndNotSel = a AND NOT sel
+    And(a=sel, b=b, out=bAndSel);        // bAndSel = sel AND b
+
+    // Step 3: Use an OR gate to combine the results
+    Or(a=aAndNotSel, b=bAndSel, out=out); // out = (a AND NOT sel) OR (sel AND b)
 }

@@ -7,9 +7,18 @@
  * if ((a and Not(b)) or (Not(a) and b)) out = 1, else out = 0
  */
 CHIP Xor {
-    IN a, b;
-    OUT out;
+    IN a, b;    // Input signals
+    OUT out;    // Output signal
 
     PARTS:
-    //// Replace this comment with your code.
+    // Step 1: Invert both inputs
+    Nand(a=b, b=b, out=NotB);    // NotB = NOT b
+    Nand(a=a, b=a, out=NotA);    // NotA = NOT a
+
+    // Step 2: Compute partial results
+    And(a=a, b=NotB, out=aAndNotB);    // aAndNotB = a AND NOT b
+    And(a=NotA, b=b, out=bAndNotA);    // bAndNotA = NOT a AND b
+
+    // Step 3: Combine partial results with OR
+    Or(a=aAndNotB, b=bAndNotA, out=out);  // out = (a AND NOT b) OR (NOT a AND b)
 }

@@ -4,13 +4,21 @@
 // File name: projects/1/DMux.hdl
 /**
  * Demultiplexor:
- * [a, b] = [in, 0] if sel = 0
- *          [0, in] if sel = 1
- */
+ * if sel = 0
+ *   [a, b] = [in, 0]
+ * else if sel = 1
+ *   [a, b] = [0, in]
+ */ 
 CHIP DMux {
     IN in, sel;
     OUT a, b;
 
     PARTS:
-    //// Replace this comment with your code.
+    // Invert Sel to create NotSel to differentiate two outccomes
+    Not(in=sel, out=NotSel);
+
+    // A is always in since DMUX only hasone input a
+    // B is sel or NotSel, and routes output to a or b 
+    And(a=in, b=NotSel, out=a);
+    And(a=in, b=sel, out=b);
 }
