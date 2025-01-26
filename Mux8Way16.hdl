@@ -20,5 +20,18 @@ CHIP Mux8Way16 {
     OUT out[16];
 
     PARTS:
-    //// Replace this comment with your code.
+    // First combine (a,b,c,d) into one 16-bit output using Mux4Way16:
+    Mux4Way16(a=a, b=b, c=c, d=d,
+              sel=sel[0..1],
+              out=abcd);
+
+    // Then combine (e,f,g,h) into one 16-bit output using Mux4Way16:
+    Mux4Way16(a=e, b=f, c=g, d=h,
+              sel=sel[0..1],
+              out=efgh);
+
+    // Then pick between abcd and efgh using sel[2]:
+    //    sel[2] = 0 => output = abcd
+    //    sel[2] = 1 => output = efgh
+    Mux16(a=abcd, b=efgh, sel=sel[2], out=out);
 }
