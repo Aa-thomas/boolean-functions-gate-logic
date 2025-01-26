@@ -14,5 +14,18 @@ CHIP DMux4Way {
     OUT a, b, c, d;
 
     PARTS:
-    //// Replace this comment with your code.
+    // First split `in` into two wires (ab and cd) using sel[1].
+    // If sel[1] = 0 => ab = in, cd = 0
+    // If sel[1] = 1 => ab = 0,  cd = in
+    DMux(in=in, sel=sel[1], a=ab, b=cd);
+
+    // Then split `ab` into outputs a, b using sel[0].
+    // If sel[0] = 0 => a = ab, b = 0
+    // If sel[0] = 1 => a = 0,  b = ab
+    DMux(in=ab, sel=sel[0], a=a, b=b);
+
+    // Then split `cd` into outputs c, d using sel[0].
+    // If sel[0] = 0 => c = cd, d = 0
+    // If sel[0] = 1 => c = 0,  d = cd
+    DMux(in=cd, sel=sel[0], a=c, b=d);
 }
